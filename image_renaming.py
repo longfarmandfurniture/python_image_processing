@@ -1,4 +1,5 @@
 import os
+import shutil
 
 def main():
     input_directory = input("Please enter the input directory: ")
@@ -15,6 +16,23 @@ def main():
     if input(f"Found {len(file_list)} matching files, would you like to list them? (y/n) ").lower().startswith("y"):
         for x in file_list:
             print(x)
+
+    file_list.sort()
+
+    output_directory = os.path.join(input_directory, "output")
+    if os.path.isdir(output_directory) == False:
+        os.mkdir(output_directory)
+
+
+    for file in file_list:
+        filename = os.path.basename(file)
+        output_file = os.path.join(output_directory, filename)
+        shutil.copyfile(file, output_file)
+
+    pass
+
+
+    
 
 
 
