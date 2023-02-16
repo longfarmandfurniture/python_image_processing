@@ -23,11 +23,20 @@ def main():
     if os.path.isdir(output_directory) == False:
         os.mkdir(output_directory)
 
-
+    i = 0
     for file in file_list:
         filename = os.path.basename(file)
+        filename = RemoveLeadingNumbers(filename)
+        if filename.startswith("-") | filename.startswith("_"):
+            filename = str(i) + filename
+        else:
+            filename = str(i) + "_" + filename
+
         output_file = os.path.join(output_directory, filename)
         shutil.copyfile(file, output_file)
+        i += 1
+
+
 
     pass
 
@@ -48,6 +57,17 @@ def FindFiles(passed_directory:str, passed_extensions:str):
                 return_list.append(os.path.join(passed_directory,file))
     return return_list
 
+def RemoveLeadingNumbers(passed_string:str):
+    while True:
+        if len(passed_string) > 0:
+            if passed_string[0].isdigit():
+                passed_string = passed_string[1:]
+                pass
+            else:
+                break
+        else:
+            break
+    return passed_string
 
 #Keep at bottom
 if __name__ == "__main__":
