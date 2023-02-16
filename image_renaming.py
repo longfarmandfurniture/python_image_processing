@@ -57,15 +57,7 @@ def main():
         #Increment for next file.
         i += 1
 
-
-
     pass
-
-
-    
-
-
-
 
 #Pass extension list with extensions separated by commas, no wildcard or '.' necessary.
 def FindFiles(passed_directory:str, passed_extensions:str):
