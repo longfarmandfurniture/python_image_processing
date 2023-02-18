@@ -1,5 +1,6 @@
 import os
 import shutil
+import json
 
 def main():
     #Get directory and check status
@@ -15,12 +16,34 @@ def main():
         exit(0)
     
     #List if desired.
-    if input(f"Found {len(file_list)} matching files, would you like to list them? (y/n) ").lower().startswith("y"):
-        for x in file_list:
-            print(x)
+    #if input(f"Found {len(file_list)} matching files, would you like to list them? (y/n) ").lower().startswith("y"):
+    #    for x in file_list:
+    #        print(x)
 
-    #Replace original name with the folder name.  Easy way to give them generic names.
-    rename_files_with_folder = input("Do you want to rename files with the folder name? (y/n) ").lower().startswith('y')
+    print(f"Found {len(file_list)} matching files:")
+    for x in file_list:
+        print(x)
+
+    #Check for images object 
+    json_file_data = None
+    json_file_name = os.path.join(input_directory, "images.json")
+    json_image_file_name = None
+    if os.path.exists(json_file_name):
+        if os.path.isfile(json_file_name):
+            file = open(json_file_name)
+            json_file_data = json.load(file)
+            if 'image_file_name' in json_file_data:
+                json_image_file_name = json_file_data['image_file_name']
+
+
+    #Replace original name with the folder name or info from json file.  Easy way to give them generic names.
+    rename_files_with_json = False
+    rename_files_with_folder = False
+    if not None == json_image_file_name:
+        rename_files_with_json = input("Do you want to rename files with JSON data? (y/n) ").lower().startswith('y')
+    pass
+    if not rename_files_with_json:
+        rename_files_with_folder = input("Do you want to rename files with the folder name? (y/n) ").lower().startswith('y')
     
     #Sort files.
     file_list.sort()
@@ -40,10 +63,11 @@ def main():
         filename = RemoveLeadingNumbers(filename)
         extension = filename[filename.rfind('.'):]
 
-        #Completely rename each file with folder name if option selected.
+        #Completely rename each file with folder name or JSON data if option selected. Add prefix and only add underscore if no dash or underscore present.
         if rename_files_with_folder:
             filename = f"{str(i)}_{folder_name}{extension}"
-        #Add prefix and only add underscore if no dash or underscore present.
+        elif rename_files_with_json:
+            filename = f"{str(i)}_{json_image_file_name}{extension}"
         else:
             if filename.startswith("-") | filename.startswith("_"):
                 filename = str(i) + filename
