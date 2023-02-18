@@ -81,6 +81,13 @@ def main():
         #Increment for next file.
         i += 1
 
+    #Copy json file to output for other processing
+    if not None == json_image_file_name:
+        filename = os.path.basename(json_file_name)
+        extension = filename[filename.rfind('.'):]
+        output_file = os.path.join(output_directory, filename)
+        shutil.copyfile(json_file_name, output_file)
+
     pass
 
 #Pass extension list with extensions separated by commas, no wildcard or '.' necessary.
