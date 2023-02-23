@@ -10,7 +10,7 @@ def main():
         exit(0)
     
     #Find files and check results
-    file_list = FindFiles(input_directory, "jPg,jpeg, png")
+    file_list = FindFiles(input_directory, "jpg,jpeg,png")
     if(len(file_list) <= 0):
         print(f"{input_directory} contains no matching files.")
         exit(0)
@@ -48,18 +48,23 @@ def main():
     #Sort files.
     file_list.sort()
 
-    #Set and create output directory.
-    output_directory = os.path.join(input_directory, "output")
+    #Set and create originals directory.
+    original_directory = os.path.join(input_directory, "original")
     folder_name = os.path.basename(input_directory)
-    if os.path.isdir(output_directory) == False:
-        os.mkdir(output_directory)
+    if os.path.isdir(original_directory) == False:
+        os.mkdir(original_directory)
 
     #Number used in naming.
     i = 0
 
     for file in file_list:
+        #Move file to originals location
+        original_filename = os.path.basename(file)
+        original_destination_file = os.path.join(original_directory,original_filename)
+        shutil.move(file,original_destination_file)
+
         #Get file name and remove any leading numbers, and get extension.
-        filename = os.path.basename(file)
+        filename = os.path.basename(original_destination_file)
         filename = RemoveLeadingNumbers(filename)
         extension = filename[filename.rfind('.'):]
 
@@ -74,19 +79,13 @@ def main():
             else:
                 filename = str(i) + "_" + filename
 
-        #Copy to ouput.
-        output_file = os.path.join(output_directory, filename)
-        shutil.copyfile(file, output_file)
+        #Copy to input directory from original.
+        output_file = os.path.join(input_directory, filename)
+        pass
+        shutil.copyfile(original_destination_file, output_file)
 
         #Increment for next file.
         i += 1
-
-    #Copy json file to output for other processing
-    if not None == json_image_file_name:
-        filename = os.path.basename(json_file_name)
-        extension = filename[filename.rfind('.'):]
-        output_file = os.path.join(output_directory, filename)
-        shutil.copyfile(json_file_name, output_file)
 
     pass
 
