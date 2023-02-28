@@ -8,7 +8,7 @@ The intention of this simple utility is bulk renaming and ordering of images for
 See image_renaming_sample.json for example format.  Currently this is hardcoded to iamges.json.
 
 #### To Do:
-- [ ] Swap input/output folder options so that originals are in a new folder.
+- [x] Swap input/output folder options so that originals are in a new folder.
 - [ ] Thumbnail creation.
 - [ ] Image resizing to specified max size.
 
