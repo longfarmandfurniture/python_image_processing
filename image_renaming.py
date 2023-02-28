@@ -68,16 +68,18 @@ def main():
         filename = RemoveLeadingNumbers(filename)
         extension = filename[filename.rfind('.'):]
 
+        #Number with leading 0's
+        string_i = '{num:03d}'.format(num=i)
         #Completely rename each file with folder name or JSON data if option selected. Add prefix and only add underscore if no dash or underscore present.
         if rename_files_with_folder:
-            filename = f"{str(i)}_{folder_name}{extension}"
+            filename = f"{string_i}_{folder_name}{extension}"
         elif rename_files_with_json:
-            filename = f"{str(i)}_{json_image_file_name}{extension}"
+            filename = f"{string_i}_{json_image_file_name}{extension}"
         else:
             if filename.startswith("-") | filename.startswith("_"):
-                filename = str(i) + filename
+                filename = string_i + filename
             else:
-                filename = str(i) + "_" + filename
+                filename = string_i + "_" + filename
 
         #Copy to input directory from original.
         output_file = os.path.join(input_directory, filename)
