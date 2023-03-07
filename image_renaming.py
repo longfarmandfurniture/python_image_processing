@@ -26,14 +26,18 @@ def main():
 
     #Check for images object 
     json_file_data = None
+    #Automated output
+    output_json_data = {}
+    output_json_file_name = os.path.join(input_directory, "images_automated.json")
     json_file_name = os.path.join(input_directory, "images.json")
     json_image_file_name = None
     if os.path.exists(json_file_name):
         if os.path.isfile(json_file_name):
-            file = open(json_file_name)
-            json_file_data = json.load(file)
-            if 'image_file_name' in json_file_data:
-                json_image_file_name = json_file_data['image_file_name']
+            with open(json_file_name) as file:
+                file = open(json_file_name)
+                json_file_data = json.load(file)
+                if 'image_file_name' in json_file_data:
+                    json_image_file_name = json_file_data['image_file_name']
 
 
     #Replace original name with the folder name or info from json file.  Easy way to give them generic names.
@@ -45,6 +49,24 @@ def main():
     if not rename_files_with_json:
         rename_files_with_folder = input("Do you want to rename files with the folder name? (y/n) ").lower().startswith('y')
     
+    #Data to create automated JSON
+    if(rename_files_with_folder):
+        output_json_data["image_file_name"] = folder_name
+    if(rename_files_with_json):
+        output_json_data["image_file_name"] = json_image_file_name
+    output_json_data["html_filename"] = "desired_file_name.html"
+    output_json_data["short_title"] = "Short Title"
+    output_json_data["long_title"] = "Long Title to Show on Page"
+    output_json_data["description"] = [
+        "Array of strings for description.",
+        "Add multiple if you like."
+    ]
+    output_json_data["preview_file_name"] = "1200x630_image_for_sharing_preview.jpg"
+    output_json_data["parent_page"] =  "parent_page.html"
+    output_json_data["meta_description"] = "Description for SEO"
+
+    image_data_for_json = {}
+
     #Sort files.
     file_list.sort()
 
@@ -83,11 +105,20 @@ def main():
 
         #Copy to input directory from original.
         output_file = os.path.join(input_directory, filename)
+        image_data_for_json[filename] = "Alt text for image"
         pass
         shutil.copyfile(original_destination_file, output_file)
 
         #Increment for next file.
         i += 1
+    output_json_data["images"] = image_data_for_json
+    print("Writing output JSON file.")
+    with open(output_json_file_name, "w") as output_file:
+        json.dump(output_json_data, output_file, indent=4)
+
+
+
+
 
     pass
 
