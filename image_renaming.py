@@ -62,6 +62,7 @@ def main():
         "Add multiple if you like."
     ]
     output_json_data["preview_file_name"] = "1200x630_image_for_sharing_preview.jpg"
+    output_json_data["preview_alt_text"] = "Alt text for preview image"
     output_json_data["parent_page"] =  "parent_page.html"
     output_json_data["meta_description"] = "Description for SEO"
 
