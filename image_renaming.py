@@ -49,6 +49,12 @@ def main():
     if not rename_files_with_json:
         rename_files_with_folder = input("Do you want to rename files with the folder name? (y/n) ").lower().startswith('y')
     
+    #Set and create originals directory.
+    original_directory = os.path.join(input_directory, "original")
+    folder_name = os.path.basename(input_directory)
+    if os.path.isdir(original_directory) == False:
+        os.mkdir(original_directory)
+
     #Data to create automated JSON
     if(rename_files_with_folder):
         output_json_data["image_file_name"] = folder_name
@@ -70,12 +76,6 @@ def main():
 
     #Sort files.
     file_list.sort()
-
-    #Set and create originals directory.
-    original_directory = os.path.join(input_directory, "original")
-    folder_name = os.path.basename(input_directory)
-    if os.path.isdir(original_directory) == False:
-        os.mkdir(original_directory)
 
     #Number used in naming.
     i = 0
