@@ -71,6 +71,8 @@ def main():
     output_json_data["preview_alt_text"] = "Alt text for preview image"
     output_json_data["parent_page"] =  "parent_page.html"
     output_json_data["meta_description"] = "Description for SEO"
+    output_json_data["build_page"] = ""
+    output_json_data["finished_page"] = ""
 
     image_data_for_json = {}
 
