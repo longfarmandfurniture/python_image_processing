@@ -73,6 +73,8 @@ def main():
     output_json_data["meta_description"] = "Description for SEO"
     output_json_data["build_page"] = ""
     output_json_data["finished_page"] = ""
+    output_json_data["previous_page"] = ""
+    output_json_data["next_page"] = ""
 
     image_data_for_json = {}
 
